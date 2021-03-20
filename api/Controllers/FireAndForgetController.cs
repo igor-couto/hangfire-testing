@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +20,14 @@ namespace api.Controllers
         public IActionResult Post()
         {
             DoWork();
+            return Ok();
+        }
 
+        [HttpPost]
+        [Route("hangfire")]
+        public IActionResult PostWithHangfire()
+        {
+            BackgroundJob.Enqueue(() => DoWork());
             return Ok();
         }
 
