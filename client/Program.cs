@@ -23,7 +23,7 @@ namespace client
                 var response = await httpClient.PostAsync("fireandforget/test", default);
                 stopwatch.Stop();
 
-                Console.WriteLine($"Request result: \n{response.StatusCode} - {response.ReasonPhrase} \nTime: {stopwatch.Elapsed.TotalMilliseconds} milliseconds\n\n");
+                Console.WriteLine($"Request result: \n\t{(int)response.StatusCode} - {response.ReasonPhrase} \n\tTime: {stopwatch.Elapsed.TotalMilliseconds} milliseconds\n\n");
                 stopwatch.Reset();
             }
         }
