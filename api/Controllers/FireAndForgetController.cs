@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,7 @@ namespace api.Controllers
             => _logger = logger;
         
         [HttpPost]
-        [Route("test")]
+        [Route("syncronous")]
         public IActionResult Post()
         {
             DoWork();
@@ -28,6 +29,18 @@ namespace api.Controllers
         public IActionResult PostWithHangfire()
         {
             BackgroundJob.Enqueue(() => DoWork());
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("asyncronous")]
+        public IActionResult PostAsyncronous()
+        {
+            var tasks = new[]
+            {
+                Task.Run(() => DoWork())
+            };
+
             return Ok();
         }
 
