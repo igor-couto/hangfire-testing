@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace api.Controllers
@@ -17,10 +19,15 @@ namespace api.Controllers
         public IActionResult Post()
         {
             DoWork();
+
             return Ok();
         }
 
         public void DoWork() 
-            => _logger.LogInformation("\nWork Done!");
+        {
+            var seconds = new Random().Next(1, 5);
+            Thread.Sleep(seconds * 1000);
+            _logger.LogInformation("\nWork Done!");
+        }
     }
 }
