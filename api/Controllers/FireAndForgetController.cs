@@ -21,6 +21,16 @@ namespace api.Controllers
         public IActionResult Post()
         {
             DoWork();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("asyncronous")]
+        public IActionResult PostAsyncronous()
+        {
+            Task.Run(() => DoWork());
+
             return Ok();
         }
 
@@ -29,25 +39,14 @@ namespace api.Controllers
         public IActionResult PostWithHangfire()
         {
             BackgroundJob.Enqueue(() => DoWork());
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("asyncronous")]
-        public IActionResult PostAsyncronous()
-        {
-            var tasks = new[]
-            {
-                Task.Run(() => DoWork())
-            };
 
             return Ok();
         }
 
         public void DoWork() 
         {
-            var seconds = new Random().Next(1, 5);
-            Thread.Sleep(seconds * 1000);
+            var milliseconds = new Random().Next(300, 500);
+            Thread.Sleep(milliseconds);
             _logger.LogInformation("\nWork Done!");
         }
     }
